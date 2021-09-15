@@ -7,7 +7,7 @@ import Header from "./components/Header";
 
 function App() {
   const [data, setData] = useState(null);
-  const [timeframe, setTimeframe] = useState(0);
+  const [timeframe, setTimeframe] = useState(1);
 
   useEffect(() => {
     const callApi = async () => {

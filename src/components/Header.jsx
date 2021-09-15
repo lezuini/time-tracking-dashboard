@@ -1,9 +1,12 @@
+import { useState } from "react";
 import Avatar from "../images/avatar.png";
-import svg from "../images/icon-ellipsis.svg";
 
 const Header = ({ setTimeframe }) => {
+  const [active, setActive] = useState(1);
+
   const handleClick = (num) => {
     setTimeframe(num);
+    setActive(num);
   };
 
   return (
@@ -13,32 +16,41 @@ const Header = ({ setTimeframe }) => {
           <img src={Avatar} alt="a" />
         </div>
         <h1>
-          <span>Report</span> for Jeremy Robson
+          <span>Report for </span>Jeremy Robson
         </h1>
       </div>
-      <div className="tabs">
-        <button
-          onClick={() => {
-            handleClick(0);
-          }}
-        >
-          Daily
-        </button>
-        <button
-          onClick={() => {
-            handleClick(1);
-          }}
-        >
-          Weekly
-        </button>
-        <button
-          onClick={() => {
-            handleClick(2);
-          }}
-        >
-          Monthly
-        </button>
-      </div>
+      <ul className="tabs">
+        <li>
+          <button
+            className={active === 0 && "active"}
+            onClick={() => {
+              handleClick(0);
+            }}
+          >
+            Daily
+          </button>
+        </li>
+        <li>
+          <button
+            className={active === 1 && "active"}
+            onClick={() => {
+              handleClick(1);
+            }}
+          >
+            Weekly
+          </button>
+        </li>
+        <li>
+          <button
+            className={active === 2 && "active"}
+            onClick={() => {
+              handleClick(2);
+            }}
+          >
+            Monthly
+          </button>
+        </li>
+      </ul>
     </header>
   );
 };
