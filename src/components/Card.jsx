@@ -48,7 +48,7 @@ const Card = ({ el, delay, timeframe }) => {
 
       setLastCurrent(report[option].current);
       setLastPrevious(report[option].previous);
-    }, 200);
+    }, 160);
 
     setTimeout(
       () => {

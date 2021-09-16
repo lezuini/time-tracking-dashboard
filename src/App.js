@@ -11,9 +11,7 @@ function App() {
 
   useEffect(() => {
     const callApi = async () => {
-      const res = await fetch(
-        "https://leonardomeza87.github.io/time-tracking-dashboard/db/data.json"
-      );
+      const res = await fetch("https://ttd-db.herokuapp.com/report");
       const json = await res.json();
       console.log(json);
       setData(json);
