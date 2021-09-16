@@ -7,24 +7,58 @@ import { ReactComponent as ExerciseIcon } from "../images/icon-exercise.svg";
 import { ReactComponent as SocialIcon } from "../images/icon-social.svg";
 import { ReactComponent as SelfCareIcon } from "../images/icon-self-care.svg";
 
-const Card = ({ el, timeframe }) => {
+const Card = ({ el, delay, timeframe }) => {
   const [color, setColor] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  let option = "";
-  let lastRecord = "";
   let report = el.timeframes;
   let { title } = el;
 
-  if (timeframe === 0) {
-    option = "daily";
-    lastRecord = "Yesterday";
-  } else if (timeframe === 1) {
-    option = "weekly";
-    lastRecord = "Last Week";
-  } else if (timeframe === 2) {
-    option = "monthly";
-    lastRecord = "Last Month";
-  }
+  const [option, setOption] = useState("weekly");
+  const [lastCurrent, setLastCurrent] = useState(report[option].current);
+  const [lastPrevious, setLastPrevious] = useState(report[option].previous);
+  const [lastRecord, setLastRecord] = useState("");
+  const [firstTime, setFirstTime] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setFirstTime(false);
+    }, 700);
+  }, []);
+
+  useEffect(() => {
+    if (timeframe === 0) {
+      setOption("daily");
+    } else if (timeframe === 1) {
+      setOption("weekly");
+    } else if (timeframe === 2) {
+      setOption("monthly");
+    }
+
+    setLoading(true);
+
+    setTimeout(() => {
+      if (timeframe === 0) {
+        setLastRecord("Yesterday");
+      } else if (timeframe === 1) {
+        setLastRecord("Last Week");
+      } else if (timeframe === 2) {
+        setLastRecord("Last Month");
+      }
+
+      setLastCurrent(report[option].current);
+      setLastPrevious(report[option].previous);
+    }, 200);
+
+    setTimeout(
+      () => {
+        setLoading(false);
+      },
+      firstTime ? 700 : 420
+    );
+
+    console.log("aaa");
+  }, [timeframe, option]);
 
   useEffect(() => {
     switch (title) {
@@ -53,7 +87,15 @@ const Card = ({ el, timeframe }) => {
   }, []);
 
   return (
-    <div className="card">
+    <div
+      className={
+        loading
+          ? firstTime
+            ? `card delay${delay} start loading`
+            : `card delay${delay} loading`
+          : `card delay${delay}`
+      }
+    >
       <div className={"iconLayer " + color}>
         {title === "Work" ? (
           <WorkIcon />
@@ -77,9 +119,9 @@ const Card = ({ el, timeframe }) => {
           </button>
         </div>
         <div className="time">
-          <div className="hours">{report[option].current}hrs</div>
+          <div className="hours">{lastCurrent}hrs</div>
           <div className="previous">
-            {lastRecord} - {report[option].previous}hrs
+            {lastRecord} - {lastPrevious}hrs
           </div>
         </div>
       </div>

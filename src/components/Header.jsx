@@ -1,28 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Avatar from "../images/avatar.png";
 
 const Header = ({ setTimeframe }) => {
   const [active, setActive] = useState(1);
+  const [visible, setVisible] = useState(false);
 
   const handleClick = (num) => {
     setTimeframe(num);
     setActive(num);
   };
 
+  useEffect(() => {
+    window.addEventListener("load", () => {
+      setVisible(true);
+    });
+  }, []);
+
   return (
     <header>
-      <div className="user">
-        <div className="avatar">
-          <img src={Avatar} alt="a" />
+      <div className="user-background">
+        <div className="user">
+          <div className="avatar">
+            <img
+              src={Avatar}
+              alt="a"
+              className={visible ? "visible" : undefined}
+            />
+          </div>
+          <h1>
+            <span>Report for </span>
+            <p>Jeremy Robson</p>
+          </h1>
         </div>
-        <h1>
-          <span>Report for </span>Jeremy Robson
-        </h1>
       </div>
       <ul className="tabs">
         <li>
           <button
-            className={active === 0 && "active"}
+            className={active === 0 ? "active" : undefined}
             onClick={() => {
               handleClick(0);
             }}
@@ -32,7 +46,7 @@ const Header = ({ setTimeframe }) => {
         </li>
         <li>
           <button
-            className={active === 1 && "active"}
+            className={active === 1 ? "active" : undefined}
             onClick={() => {
               handleClick(1);
             }}
@@ -42,7 +56,7 @@ const Header = ({ setTimeframe }) => {
         </li>
         <li>
           <button
-            className={active === 2 && "active"}
+            className={active === 2 ? "active" : undefined}
             onClick={() => {
               handleClick(2);
             }}

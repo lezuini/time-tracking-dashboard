@@ -16,6 +16,7 @@ $soft-orange: hsl(43, 84%, 65%);
 $very-dark-blue: hsl(226, 43%, 10%);
 $dark-blue: hsl(235, 46%, 20%);
 $desaturated-blue: hsl(235, 45%, 61%);
+$card-hover: #34397b;
 $pale-blue: hsl(236, 100%, 87%);
 
 body {
@@ -25,6 +26,7 @@ body {
   justify-content: center;
   align-items: center;
   background-color: $very-dark-blue;
+  padding: 3rem 2rem;
 }
 
 .app {
@@ -41,50 +43,93 @@ header {
   width: 256px;
   background-color: $dark-blue;
   border-radius: 1rem;
-  // overflow: hidden;
 
-  .user {
-    background-color: $blue;
-    height: 354px;
+  .user-background {
+    position: relative;
+    background-color: $dark-blue;
     width: 100%;
-    border-radius: 1rem;
+    height: 354px;
     padding: 32px 0 0 28px;
+    border-radius: 1rem;
+    overflow: hidden;
 
-    .avatar {
-      height: 86px;
-      width: 86px;
+    &::before {
+      content: "";
+      position: absolute;
+      top: -128px;
+      left: -128px;
+
+      background-color: $blue;
       border-radius: 50%;
-      overflow: hidden;
-      background-color: #fff;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 40px;
+      width: 256px;
+      height: 256px;
+      animation: expansion 0.5s ease-in-out 0.4s forwards;
+      transform-origin: 50%;
+      transform: scale(0);
+    }
 
-      img {
-        width: 80px;
-        height: 80px;
+    .user {
+      position: relative;
+      height: 354px;
+      width: 100%;
+      z-index: 10;
+
+      @keyframes expansion {
+        0% {
+          transform: scale(0);
+        }
+        100% {
+          transform: scale(4);
+        }
+      }
+
+      .avatar {
+        height: 86px;
+        width: 86px;
+        border-radius: 50%;
+        overflow: hidden;
+        background-color: #fff;
+        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
-        border-radius: 50%;
+        margin-bottom: 40px;
+
+        img {
+          width: 80px;
+          height: 80px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 50%;
+          opacity: 0;
+          transition: opacity 0.2s ease-in-out 0.4s;
+
+          &.visible {
+            opacity: 1;
+          }
+        }
       }
-    }
 
-    h1 {
-      font-size: 18px;
-      color: #fff;
-      font-weight: 300;
-      font-size: 40px;
+      h1 {
+        span {
+          display: block;
+          width: 100%;
+          font-weight: 400;
+          font-size: 15px;
+          margin-bottom: 3px;
+          color: $pale-blue;
+          animation: text 0.5s ease-in-out forwards;
+        }
+        p {
+          font-size: 18px;
+          color: #fff;
+          font-weight: 300;
+          font-size: 40px;
+          opacity: 0;
 
-      span {
-        display: block;
-        width: 100%;
-        font-weight: 400;
-        font-size: 15px;
-        margin-bottom: 3px;
-        color: $pale-blue;
+          animation: text 0.5s ease-in-out forwards 0.5s;
+        }
       }
     }
   }
@@ -96,9 +141,18 @@ header {
       width: 100%;
       height: 38px;
       margin-bottom: 4px;
+      opacity: 0;
+
+      &:first-child {
+        animation: text 0.2s ease-in-out forwards 1s;
+      }
+      &:nth-child(2) {
+        animation: text 0.2s ease-in-out forwards 1.2s;
+      }
 
       &:last-child {
         margin-bottom: 0;
+        animation: text 0.2s ease-in-out forwards 1.4s;
       }
 
       button {
@@ -113,8 +167,10 @@ header {
         display: flex;
         justify-content: flex-start;
         align-items: center;
+        transition: color 0.2s ease-in-out;
 
         &:hover {
+          transition: none;
           color: #fff;
         }
 
@@ -126,11 +182,62 @@ header {
   }
 }
 
+@keyframes text {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .card {
   width: 256px;
   height: 198px;
   position: relative;
   margin-bottom: 46px;
+  opacity: 0;
+  animation: appear 0.4s ease-in-out forwards;
+
+  &.loading .info {
+    animation: reload 0.4s ease-in-out;
+  }
+  &.start .info {
+    opacity: 0 !important;
+    transform: translateY(-46px);
+  }
+
+  @keyframes appear {
+    0% {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes reload {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    40% {
+      opacity: 0;
+      transform: translateY(-46px);
+    }
+    60% {
+      opacity: 0;
+      transform: translateY(-46px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
   .iconLayer {
     width: 100%;
@@ -147,6 +254,48 @@ header {
       position: relative;
       right: 22px;
       top: -5px;
+      animation-name: movement;
+      animation-direction: alternate;
+      animation-duration: 12s;
+      animation-timing-function: ease;
+      animation-iteration-count: infinite;
+      transform: translate(0, -5px);
+
+      @keyframes movement {
+        0% {
+          transform: translate(0, -5px);
+        }
+        10% {
+          transform: translate(5px, 0);
+        }
+        20% {
+          transform: translate(0px, 5px);
+        }
+        30% {
+          transform: translate(-5px, 3px);
+        }
+        40% {
+          transform: translate(-10px, 3px);
+        }
+        50% {
+          transform: translate(-15px, 5px);
+        }
+        60% {
+          transform: translate(-20px, 0px);
+        }
+        70% {
+          transform: translate(-15px, -5px);
+        }
+        80% {
+          transform: translate(-10px, -7px);
+        }
+        90% {
+          transform: translate(-5px, -7px);
+        }
+        100% {
+          transform: translate(0, -5);
+        }
+      }
     }
   }
 
@@ -162,12 +311,22 @@ header {
 
     padding: 23px;
     color: #fff;
+    transition-property: background-color, opacity, transform;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+    cursor: default;
+
+    &:hover {
+      transition: none;
+      background-color: $card-hover;
+    }
 
     .title {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
+      opacity: 0;
 
       h2 {
         font-size: 18px;
@@ -186,7 +345,11 @@ header {
         border-radius: 0.5rem;
         cursor: pointer;
 
+        svg path {
+          transition: fill 0.2s ease-in-out;
+        }
         &:hover > svg path {
+          transition: none;
           fill: #fff;
         }
       }
@@ -202,12 +365,14 @@ header {
         font-size: 54px;
         font-weight: 300;
         margin-bottom: 10px;
+        opacity: 0;
       }
       .previous {
         font-size: 15px;
         line-height: 16px;
         font-weight: 400;
         color: $pale-blue;
+        opacity: 0;
       }
     }
   }
@@ -222,12 +387,17 @@ header {
 }
 .blue {
   background-color: $soft-blue;
+
+  svg {
+    animation-delay: 1s;
+  }
 }
 .red {
   background-color: $light-red;
 
   svg {
     top: -7px !important;
+    animation-delay: 2s;
   }
 }
 .green {
@@ -235,6 +405,7 @@ header {
 
   svg {
     top: -2px !important;
+    animation-delay: 3s;
   }
 }
 .purple {
@@ -242,6 +413,7 @@ header {
 
   svg {
     top: 0 !important;
+    animation-delay: 4s;
   }
 }
 .yellow {
@@ -249,5 +421,285 @@ header {
 
   svg {
     top: -12px !important;
+    animation-delay: 5s;
+  }
+}
+
+.delay0 {
+  animation-delay: 0;
+  .info {
+    .title {
+      animation: text 0.2s ease-in-out forwards;
+    }
+    .time {
+      .hours {
+        animation: text 0.2s ease-in-out forwards 0.1s;
+      }
+      .previous {
+        animation: text 0.2s ease-in-out forwards 0.2s;
+      }
+    }
+  }
+}
+.delay1 {
+  animation-delay: 0.1s;
+  .info {
+    .title {
+      animation: text 0.2s ease-in-out forwards 0.1s;
+    }
+    .time {
+      .hours {
+        animation: text 0.2s ease-in-out forwards 0.2s;
+      }
+      .previous {
+        animation: text 0.2s ease-in-out forwards 0.3s;
+      }
+    }
+  }
+}
+.delay2 {
+  animation-delay: 0.2s;
+  .info {
+    .title {
+      animation: text 0.2s ease-in-out forwards 0.2s;
+    }
+    .time {
+      .hours {
+        animation: text 0.2s ease-in-out forwards 0.3s;
+      }
+      .previous {
+        animation: text 0.2s ease-in-out forwards 0.4s;
+      }
+    }
+  }
+}
+.delay3 {
+  animation-delay: 0.3s;
+  .info {
+    .title {
+      animation: text 0.2s ease-in-out forwards 0.3s;
+    }
+    .time {
+      .hours {
+        animation: text 0.2s ease-in-out forwards 0.4s;
+      }
+      .previous {
+        animation: text 0.2s ease-in-out forwards 0.5s;
+      }
+    }
+  }
+}
+.delay4 {
+  animation-delay: 0.4s;
+  .info {
+    .title {
+      animation: text 0.2s ease-in-out forwards 0.4s;
+    }
+    .time {
+      .hours {
+        animation: text 0.2s ease-in-out forwards 0.5s;
+      }
+      .previous {
+        animation: text 0.2s ease-in-out forwards 0.6s;
+      }
+    }
+  }
+}
+.delay5 {
+  animation-delay: 0.5s;
+  .info {
+    .title {
+      animation: text 0.2s ease-in-out forwards 0.5s;
+    }
+    .time {
+      .hours {
+        animation: text 0.2s ease-in-out forwards 0.6s;
+      }
+      .previous {
+        animation: text 0.2s ease-in-out forwards 0.7s;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1279px) {
+  .app {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 899px) {
+  .app {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 619px) {
+  body {
+    align-items: flex-start;
+  }
+
+  .app {
+    grid-template-columns: repeat(1, 1fr);
+    width: 100%;
+  }
+
+  header {
+    width: 100%;
+    max-width: 328px;
+    height: 212px;
+
+    .user-background {
+      height: 142px;
+      padding-top: 0;
+
+      .user {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+
+        .avatar {
+          width: 72px;
+          height: 72px;
+          margin: 0;
+
+          img {
+            width: 66px;
+            height: 66px;
+          }
+        }
+
+        h1 {
+          padding: 0 16px 0;
+
+          span {
+            // margin: 10px 0 6px;
+            margin: 0px 0 6px;
+            width: max-content;
+          }
+          p {
+            font-size: 24px;
+            line-height: 24px;
+          }
+        }
+      }
+    }
+
+    .tabs {
+      display: flex;
+      padding: 15px;
+
+      li {
+        &:first-child {
+          button {
+            padding: 0 14px 0 24px;
+          }
+        }
+        &:nth-child(2) {
+          button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+        }
+        &:last-child {
+          button {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 24px 0 14px;
+          }
+        }
+      }
+    }
+  }
+
+  .card {
+    width: 100%;
+    max-width: 328px;
+
+    .info {
+      .time {
+        .hours {
+          font-size: 42px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 411px) {
+  body {
+    padding: 3rem 1rem;
+  }
+
+  header {
+    height: 204px;
+
+    .user-background {
+      height: 134px;
+      .user {
+        h1 {
+          p {
+            font-size: 22px;
+            width: max-content;
+          }
+        }
+      }
+    }
+    .tabs {
+      li {
+        button {
+          padding: 0 14px;
+        }
+
+        &:first-child {
+          button {
+            padding: 0 14px 0 6px;
+          }
+        }
+        &:nth-child(2) {
+          button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+        }
+        &:last-child {
+          button {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 6px 0 18px;
+          }
+        }
+      }
+    }
+  }
+
+  .card {
+    height: 122px;
+
+    .info {
+      bottom: -38px;
+      height: 122px;
+
+      .title {
+        margin-bottom: 4px;
+      }
+      .time {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        .hours {
+          font-size: 32px;
+          line-height: 32px;
+          margin-bottom: 0;
+        }
+      }
+    }
   }
 }

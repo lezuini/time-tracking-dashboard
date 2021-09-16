@@ -1,8 +1,8 @@
 {
-  "name": "template",
+  "name": "time-tracking-dashboard",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://leonardomeza87.github.io/template",
+  "homepage": "https://leonardomeza87.github.io/time-tracking-dashboard",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
