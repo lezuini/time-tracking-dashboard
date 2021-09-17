@@ -36,7 +36,7 @@ function App() {
   }, [data]);
 
   return (
-    <div className="app">
+    <main className="app">
       <Header setTimeframe={setTimeframe} data={data} />
       {dataToShow.length > 0 &&
         dataToShow.map((el) => {
@@ -51,7 +51,7 @@ function App() {
           )}
         </div>
       )}
-    </div>
+    </main>
   );
 }
 

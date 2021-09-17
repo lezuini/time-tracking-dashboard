@@ -44,8 +44,8 @@ const Header = ({ setTimeframe, data }) => {
             />
           </div>
           <h1>
-            <span>Report for </span>
-            <p>Jeremy Robson</p>
+            <span className="report">Report for </span>
+            <span className="name">Jeremy Robson</span>
           </h1>
         </div>
       </div>

@@ -73,7 +73,7 @@ const Card = ({ el, timeframe }) => {
   }, [timeframe, report]);
 
   return (
-    <div className={firstTime ? "card" : loading ? `card loading` : `card`}>
+    <article className={firstTime ? "card" : loading ? `card loading` : `card`}>
       <div className={"iconLayer " + color}>
         {title === "Work" ? (
           <WorkIcon />
@@ -93,6 +93,7 @@ const Card = ({ el, timeframe }) => {
         <div className="title">
           <h2>{title}</h2>
           <button>
+            <span>Menu</span>
             <EllipsisIcon />
           </button>
         </div>
@@ -103,7 +104,7 @@ const Card = ({ el, timeframe }) => {
           </div>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 
