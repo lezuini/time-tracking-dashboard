@@ -6,28 +6,35 @@ import Card from "./components/Card";
 import Header from "./components/Header";
 
 function App() {
-  const [data, setData] = useState(null);
-  const [timeframe, setTimeframe] = useState(1);
+  const [data, setData] = useState([]);
+  const [dataToShow, setDataToShow] = useState([]);
+  const [timeframe, setTimeframe] = useState("weekly");
 
   useEffect(() => {
-    const callApi = async () => {
+    const callDB = async () => {
       const res = await fetch("https://ttd-db.herokuapp.com/report");
       const json = await res.json();
-      console.log(json);
+      // console.log(json);
       setData(json);
     };
 
-    callApi();
+    callDB();
   }, []);
+
+  useEffect(() => {
+    for (let i = 0; i < data.length; i++) {
+      setTimeout(() => {
+        setDataToShow((dataToShow) => [...dataToShow, data[i]]);
+      }, 200 * i);
+    }
+  }, [data]);
 
   return (
     <div className="app">
       <Header setTimeframe={setTimeframe} />
-      {data &&
-        data.map((el, index) => {
-          return (
-            <Card el={el} key={el.title} delay={index} timeframe={timeframe} />
-          );
+      {dataToShow &&
+        dataToShow.map((el) => {
+          return <Card el={el} key={el.title} timeframe={timeframe} />;
         })}
     </div>
   );

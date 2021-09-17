@@ -2,19 +2,30 @@ import { useEffect, useState } from "react";
 import Avatar from "../images/avatar.png";
 
 const Header = ({ setTimeframe }) => {
-  const [active, setActive] = useState(1);
+  const [activeButton, setActiveButton] = useState("weekly");
   const [visible, setVisible] = useState(false);
+  const [disabled, setDisabled] = useState(true);
+  const [firstTime, setFirstTime] = useState(true);
 
-  const handleClick = (num) => {
-    setTimeframe(num);
-    setActive(num);
+  const handleClick = (timeframe) => {
+    setDisabled(true);
+    setTimeframe(timeframe);
+    setActiveButton(timeframe);
   };
 
   useEffect(() => {
-    window.addEventListener("load", () => {
-      setVisible(true);
-    });
-  }, []);
+    if (disabled) {
+      setTimeout(
+        () => {
+          setDisabled(false);
+          if (firstTime) {
+            setFirstTime(false);
+          }
+        },
+        firstTime ? 2600 : 1200
+      );
+    }
+  }, [disabled, firstTime]);
 
   return (
     <header>
@@ -23,7 +34,8 @@ const Header = ({ setTimeframe }) => {
           <div className="avatar">
             <img
               src={Avatar}
-              alt="a"
+              onLoad={() => setVisible(true)}
+              alt="avatar"
               className={visible ? "visible" : undefined}
             />
           </div>
@@ -36,30 +48,33 @@ const Header = ({ setTimeframe }) => {
       <ul className="tabs">
         <li>
           <button
-            className={active === 0 ? "active" : undefined}
-            onClick={() => {
-              handleClick(0);
+            className={activeButton === "daily" ? "active" : undefined}
+            onClick={(e) => {
+              handleClick("daily");
             }}
+            disabled={disabled}
           >
             Daily
           </button>
         </li>
         <li>
           <button
-            className={active === 1 ? "active" : undefined}
+            className={activeButton === "weekly" ? "active" : undefined}
             onClick={() => {
-              handleClick(1);
+              handleClick("weekly");
             }}
+            disabled={disabled}
           >
             Weekly
           </button>
         </li>
         <li>
           <button
-            className={active === 2 ? "active" : undefined}
+            className={activeButton === "monthly" ? "active" : undefined}
             onClick={() => {
-              handleClick(2);
+              handleClick("monthly");
             }}
+            disabled={disabled}
           >
             Monthly
           </button>

@@ -7,58 +7,17 @@ import { ReactComponent as ExerciseIcon } from "../images/icon-exercise.svg";
 import { ReactComponent as SocialIcon } from "../images/icon-social.svg";
 import { ReactComponent as SelfCareIcon } from "../images/icon-self-care.svg";
 
-const Card = ({ el, delay, timeframe }) => {
-  const [color, setColor] = useState("");
-  const [loading, setLoading] = useState(true);
-
+const Card = ({ el, timeframe }) => {
   let report = el.timeframes;
   let { title } = el;
 
-  const [option, setOption] = useState("weekly");
-  const [lastCurrent, setLastCurrent] = useState(report[option].current);
-  const [lastPrevious, setLastPrevious] = useState(report[option].previous);
-  const [lastRecord, setLastRecord] = useState("");
+  const [color, setColor] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const [lastCurrent, setLastCurrent] = useState(report[timeframe].current);
+  const [lastPrevious, setLastPrevious] = useState(report[timeframe].previous);
+  const [lastRecord, setLastRecord] = useState("Last Week");
   const [firstTime, setFirstTime] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setFirstTime(false);
-    }, 700);
-  }, []);
-
-  useEffect(() => {
-    if (timeframe === 0) {
-      setOption("daily");
-    } else if (timeframe === 1) {
-      setOption("weekly");
-    } else if (timeframe === 2) {
-      setOption("monthly");
-    }
-
-    setLoading(true);
-
-    setTimeout(() => {
-      if (timeframe === 0) {
-        setLastRecord("Yesterday");
-      } else if (timeframe === 1) {
-        setLastRecord("Last Week");
-      } else if (timeframe === 2) {
-        setLastRecord("Last Month");
-      }
-
-      setLastCurrent(report[option].current);
-      setLastPrevious(report[option].previous);
-    }, 160);
-
-    setTimeout(
-      () => {
-        setLoading(false);
-      },
-      firstTime ? 700 : 420
-    );
-
-    console.log("aaa");
-  }, [timeframe, option]);
 
   useEffect(() => {
     switch (title) {
@@ -84,18 +43,37 @@ const Card = ({ el, delay, timeframe }) => {
       default:
         break;
     }
+  }, [title]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setFirstTime(false);
+    }, 1000);
   }, []);
 
-  return (
-    <div
-      className={
-        loading
-          ? firstTime
-            ? `card delay${delay} start loading`
-            : `card delay${delay} loading`
-          : `card delay${delay}`
+  useEffect(() => {
+    setLoading(true);
+
+    setTimeout(() => {
+      if (timeframe === "daily") {
+        setLastRecord("Yesterday");
+      } else if (timeframe === "weekly") {
+        setLastRecord("Last Week");
+      } else if (timeframe === "monthly") {
+        setLastRecord("Last Month");
       }
-    >
+
+      setLastCurrent(report[timeframe].current);
+      setLastPrevious(report[timeframe].previous);
+    }, 400);
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 820);
+  }, [timeframe, report]);
+
+  return (
+    <div className={firstTime ? "card" : loading ? `card loading` : `card`}>
       <div className={"iconLayer " + color}>
         {title === "Work" ? (
           <WorkIcon />
