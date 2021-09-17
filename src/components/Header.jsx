@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Avatar from "../images/avatar.png";
 
-const Header = ({ setTimeframe }) => {
+const Header = ({ setTimeframe, data }) => {
   const [activeButton, setActiveButton] = useState("weekly");
   const [visible, setVisible] = useState(false);
   const [disabled, setDisabled] = useState(true);
@@ -15,17 +15,21 @@ const Header = ({ setTimeframe }) => {
 
   useEffect(() => {
     if (disabled) {
-      setTimeout(
-        () => {
-          setDisabled(false);
-          if (firstTime) {
+      if (firstTime) {
+        // console.log(data.length);
+        if (data && data.length > 0) {
+          setTimeout(() => {
+            setDisabled(false);
             setFirstTime(false);
-          }
-        },
-        firstTime ? 2600 : 1200
-      );
+          }, 2600);
+        }
+      } else {
+        setTimeout(() => {
+          setDisabled(false);
+        }, 1200);
+      }
     }
-  }, [disabled, firstTime]);
+  }, [disabled, firstTime, data]);
 
   return (
     <header>

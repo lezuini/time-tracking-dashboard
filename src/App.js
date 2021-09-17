@@ -12,30 +12,45 @@ function App() {
 
   useEffect(() => {
     const callDB = async () => {
-      const res = await fetch("https://ttd-db.herokuapp.com/report");
-      const json = await res.json();
-      // console.log(json);
-      setData(json);
+      try {
+        const res = await fetch("https://ttd-db.herokuapp.com/report");
+        const json = await res.json();
+        setData(json);
+      } catch (error) {
+        console.error(error);
+        setData(null);
+      }
     };
 
     callDB();
   }, []);
 
   useEffect(() => {
-    for (let i = 0; i < data.length; i++) {
-      setTimeout(() => {
-        setDataToShow((dataToShow) => [...dataToShow, data[i]]);
-      }, 200 * i);
+    if (data) {
+      for (let i = 0; i < data.length; i++) {
+        setTimeout(() => {
+          setDataToShow((dataToShow) => [...dataToShow, data[i]]);
+        }, 200 * i);
+      }
     }
   }, [data]);
 
   return (
     <div className="app">
-      <Header setTimeframe={setTimeframe} />
-      {dataToShow &&
+      <Header setTimeframe={setTimeframe} data={data} />
+      {dataToShow.length > 0 &&
         dataToShow.map((el) => {
           return <Card el={el} key={el.title} timeframe={timeframe} />;
         })}
+      {dataToShow.length === 0 && (
+        <div className="loader-container">
+          {data === null ? (
+            <h2>An error occurred on the server</h2>
+          ) : (
+            <div className="loader"></div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
