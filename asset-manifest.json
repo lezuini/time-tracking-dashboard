@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/time-tracking-dashboard/static/css/main.403d3aa8.chunk.css",
-    "main.js": "/time-tracking-dashboard/static/js/main.2ceaf614.chunk.js",
-    "main.js.map": "/time-tracking-dashboard/static/js/main.2ceaf614.chunk.js.map",
+    "main.css": "/time-tracking-dashboard/static/css/main.5024c571.chunk.css",
+    "main.js": "/time-tracking-dashboard/static/js/main.c13ef856.chunk.js",
+    "main.js.map": "/time-tracking-dashboard/static/js/main.c13ef856.chunk.js.map",
     "runtime-main.js": "/time-tracking-dashboard/static/js/runtime-main.e82896c9.js",
     "runtime-main.js.map": "/time-tracking-dashboard/static/js/runtime-main.e82896c9.js.map",
     "static/js/2.701cabaa.chunk.js": "/time-tracking-dashboard/static/js/2.701cabaa.chunk.js",
     "static/js/2.701cabaa.chunk.js.map": "/time-tracking-dashboard/static/js/2.701cabaa.chunk.js.map",
     "index.html": "/time-tracking-dashboard/index.html",
-    "static/css/main.403d3aa8.chunk.css.map": "/time-tracking-dashboard/static/css/main.403d3aa8.chunk.css.map",
+    "static/css/main.5024c571.chunk.css.map": "/time-tracking-dashboard/static/css/main.5024c571.chunk.css.map",
     "static/js/2.701cabaa.chunk.js.LICENSE.txt": "/time-tracking-dashboard/static/js/2.701cabaa.chunk.js.LICENSE.txt",
     "static/media/avatar.71cd41f1.png": "/time-tracking-dashboard/static/media/avatar.71cd41f1.png",
     "static/media/icon-ellipsis.a57a4ac8.svg": "/time-tracking-dashboard/static/media/icon-ellipsis.a57a4ac8.svg",
@@ -22,7 +22,7 @@
   "entrypoints": [
     "static/js/runtime-main.e82896c9.js",
     "static/js/2.701cabaa.chunk.js",
-    "static/css/main.403d3aa8.chunk.css",
-    "static/js/main.2ceaf614.chunk.js"
+    "static/css/main.5024c571.chunk.css",
+    "static/js/main.c13ef856.chunk.js"
   ]
 }
