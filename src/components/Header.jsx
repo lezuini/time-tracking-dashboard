@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import Avatar from "../images/avatar.png";
 
 const Header = ({ setTimeframe, data }) => {
@@ -8,15 +9,16 @@ const Header = ({ setTimeframe, data }) => {
   const [firstTime, setFirstTime] = useState(true);
 
   const handleClick = (timeframe) => {
-    setDisabled(true);
-    setTimeframe(timeframe);
-    setActiveButton(timeframe);
+    if (activeButton !== timeframe) {
+      setDisabled(true);
+      setTimeframe(timeframe);
+      setActiveButton(timeframe);
+    }
   };
 
   useEffect(() => {
     if (disabled) {
       if (firstTime) {
-        // console.log(data.length);
         if (data && data.length > 0) {
           setTimeout(() => {
             setDisabled(false);
